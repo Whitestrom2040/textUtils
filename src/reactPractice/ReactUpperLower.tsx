@@ -2,7 +2,7 @@
 import '../style/ReactUpperLower.css'
 import { useState } from 'react'
 import { Alert, Switch } from 'antd';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const ReactUpperLower = () => {
     const [toggleTime, setToggleTime] = useState(false)
@@ -16,7 +16,7 @@ const ReactUpperLower = () => {
     const handleUpClick = () => {
         const newText = textUpper.toUpperCase();
         setTextUpper(newText)
-    }
+    }   
 
     const handleLoClick = () => {
         const setTextLower = textUpper.toLowerCase();
@@ -83,18 +83,19 @@ const ReactUpperLower = () => {
         })
     }
 
+
     return (
         <>
             <div
                 className='w-full h-full flex flex-col'
                 style={{ background: `${myToggleColor.backgroundColor}`, color: `${myToggleColor.color}` }}>
-                <div>
+                <div className='h-[80px] bg-red-400'>
                     <div className='flex gap-3 text-2xl font-semibold'>
                         <a>TextUtils</a>
-                        <Link to="/about" className='hover:text-gray-400'>About</Link>
-                        <Link to="/contact" className='hover:text-gray-400'>Contact</Link>
+                        {/* <Link to="/about" className='hover:text-gray-400'>About</Link> */}
+                        {/* <Link to="/contact" className='hover:text-gray-400'>Contact</Link> */}
                     </div>
-                    <div className='flex justify-end items-center p-2 gap-4'>
+                    <div className='flex justify-end items-center gap-3'>
                         <button
                             className='border-2 h-10 w-14 rounded-lg text-white bg-red-500 font-semibold'
                             onClick={() => btnClick("red")} > Red </button>
@@ -116,37 +117,44 @@ const ReactUpperLower = () => {
                         />
                     </div>
                 </div>
-                {
-                    toggleTime ?
-                        <div className='' role='alert'>
-                            <Alert message={textBtnClick !== "Enable Dark Mode" ? "Success : Dark Mode" : "Success : Light Mode"} type="success" />
-                        </div>
-                        : null
-                }
+
+                <div className='h-10'>
+                    {
+                        toggleTime ?
+                            <div role='alert'>
+                                {<Alert message={textBtnClick !== "Enable Dark Mode" ? "Success : Dark Mode" : "Success : Light Mode"}
+                                    type="success" />}
+                            </div>
+                            : null
+                    }
+                </div>
+
                 <div className='w-full h-full'>
                     <div className='mb-3 flex flex-col justify-center items-center' >
-                        <label htmlFor="" className='font-bold text-3xl my-3 text-start'> Enter Text Example</label>
+                        <label htmlFor="" className='font-bold text-3xl my-3 text-start'> 
+                        Enter TextUtils - Word Counter, Character Counter Ext. </label>
                         <textarea
                             value={textUpper}
                             id='myBox'
                             name="text"
                             onChange={handleOnChange}
+                            style={{ backgroundColor: "lightgray" }}
                             className='border w-[80%] h-52 rounded outline-none text-gray-600'>
                         </textarea>
-                    </div>                    
+                    </div>
                     <div className='mx-2 flex gap-4 justify-center'>
-                        <button className='bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleUpClick}> UpperCase </button>
-                        <button className='bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleLoClick}> LowerCase </button>
-                        <button className='bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleClearClick}> Clear Text </button>
-                        <button className='bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleCopyClick} > Copy Text </button>
-                        <button className='bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleExtraSpaceClick}> Space Remove </button>
+                        <button disabled={textUpper.length === 0} className='disabled:bg-blue-300 bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleUpClick}> UpperCase </button>
+                        <button disabled={textUpper.length === 0} className='disabled:bg-blue-300 bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleLoClick}> LowerCase </button>
+                        <button disabled={textUpper.length === 0} className='disabled:bg-blue-300 bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleClearClick}> Clear Text </button>
+                        <button disabled={textUpper.length === 0} className='disabled:bg-blue-300 bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleCopyClick} > Copy Text </button>
+                        <button disabled={textUpper.length === 0} className='disabled:bg-blue-300 bg-blue-500 h-10 w-32 rounded-xl text-white' onClick={handleExtraSpaceClick}> Space Remove </button>
                     </div>
                     <div className='my-5 flex flex-col justify-center items-start pl-32 w-[90%]'>
                         <h1 className='text-2xl font-semibold'>Text Summary</h1>
-                        <p className='my-2'>{textUpper ? textUpper.trim().split(" ").length : "0"} Words and {textUpper.length} characters </p>
-                        <p className='my-2'>{0.008 * textUpper.split(" ").length} Minutes read </p>
+                        <p className='my-2'>{textUpper ? textUpper.trim().split(/\s+/).length : "0"} Words and {textUpper.length} characters </p>
+                        <p className='my-2'>{textUpper ? 0.008 * textUpper.trim().split(" ").length : "0"} Minutes read </p>
                         <h3 className='text-2xl font-semibold'>Preview</h3>
-                        <p className=''>{textUpper.length > 0 ? textUpper : 'Enter Somethings in the textbox above to preview is here'}</p>
+                        <p className=''>{textUpper.length > 0 ? textUpper : 'Nothing to Preview...!'}</p>
                     </div>
                 </div>
             </div>
